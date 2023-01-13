@@ -24,23 +24,27 @@ import javax.inject.Singleton
 @Module
 class AppModule {
 
+    //    @Named("HttpInterceptor")
     @Provides
-    @Named("ChuckerInterceptor")
+    @HttpInterceptor
     fun provideHttpInterceptor(@ApplicationContext context: Context): Interceptor =
         ChuckerInterceptor.Builder(context).build()
 
+    //    @Named("LoggingInterceptor")
     @Provides
-    @Named("LoggingInterceptor")
+    @LoggingInterceptor
     fun provideLoggingInterceptor(): Interceptor =
         HttpLoggingInterceptor().apply { setLevel(HttpLoggingInterceptor.Level.BODY) }
 
     @Provides
     fun provideOkHttpClient(
-        @Named("ChuckerInterceptor") chuckerInterceptor: Interceptor,
-        @Named("LoggingInterceptor") loggingInterceptor: Interceptor
+//        @Named("HttpInterceptor") chuckerInterceptor: Interceptor,
+        @HttpInterceptor httpInterceptor: Interceptor,
+//        @Named("LoggingInterceptor") loggingInterceptor: Interceptor
+        @LoggingInterceptor loggingInterceptor: Interceptor
     ): OkHttpClient =
         OkHttpClient.Builder()
-            .addInterceptor(chuckerInterceptor)
+            .addInterceptor(httpInterceptor)
             .addInterceptor(loggingInterceptor)
             .build()
 

@@ -14,8 +14,10 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import javax.inject.Named
 import javax.inject.Singleton
 
 @InstallIn(SingletonComponent::class)
@@ -23,13 +25,23 @@ import javax.inject.Singleton
 class AppModule {
 
     @Provides
+    @Named("ChuckerInterceptor")
     fun provideHttpInterceptor(@ApplicationContext context: Context): Interceptor =
         ChuckerInterceptor.Builder(context).build()
 
     @Provides
-    fun provideOkHttpClient(interceptor: Interceptor): OkHttpClient =
+    @Named("LoggingInterceptor")
+    fun provideLoggingInterceptor(): Interceptor =
+        HttpLoggingInterceptor().apply { setLevel(HttpLoggingInterceptor.Level.BODY) }
+
+    @Provides
+    fun provideOkHttpClient(
+        @Named("ChuckerInterceptor") chuckerInterceptor: Interceptor,
+        @Named("LoggingInterceptor") loggingInterceptor: Interceptor
+    ): OkHttpClient =
         OkHttpClient.Builder()
-            .addInterceptor(interceptor)
+            .addInterceptor(chuckerInterceptor)
+            .addInterceptor(loggingInterceptor)
             .build()
 
     @Provides

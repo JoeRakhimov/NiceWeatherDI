@@ -56,6 +56,10 @@ dependencies {
     // Kotlin extensions for activity artifacts
     implementation 'androidx.activity:activity-ktx:1.6.1'
 
+    // HTTP Interceptor
+    debugImplementation "com.github.chuckerteam.chucker:library:3.5.2"
+    releaseImplementation "com.github.chuckerteam.chucker:library-no-op:3.5.2"
+
 }
 
 kapt {

@@ -25,7 +25,7 @@ import javax.inject.Singleton
 class AppModule {
 
     @Provides
-    @Named("ChuckerInterceptor")
+    @Named("HttpInterceptor")
     fun provideHttpInterceptor(@ApplicationContext context: Context): Interceptor =
         ChuckerInterceptor.Builder(context).build()
 
@@ -36,11 +36,11 @@ class AppModule {
 
     @Provides
     fun provideOkHttpClient(
-        @Named("ChuckerInterceptor") chuckerInterceptor: Interceptor,
+        @Named("HttpInterceptor") httpInterceptor: Interceptor,
         @Named("LoggingInterceptor") loggingInterceptor: Interceptor
     ): OkHttpClient =
         OkHttpClient.Builder()
-            .addInterceptor(chuckerInterceptor)
+            .addInterceptor(httpInterceptor)
             .addInterceptor(loggingInterceptor)
             .build()
 

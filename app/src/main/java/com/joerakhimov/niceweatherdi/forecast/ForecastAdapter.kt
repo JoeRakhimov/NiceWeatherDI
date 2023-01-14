@@ -5,9 +5,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.joerakhimov.niceweatherdi.R
+import com.joerakhimov.niceweatherdi.data.ImageLoader
 import kotlinx.android.synthetic.main.listitem_forecast.view.*
 
-class ForecastAdapter(private val dailyForecast: List<DailyItem>) :
+class ForecastAdapter(
+    private val dailyForecast: List<DailyItem>,
+    private val imageLoader: ImageLoader
+) :
     RecyclerView.Adapter<ForecastAdapter.ViewHolder>() {
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view)
@@ -23,6 +27,7 @@ class ForecastAdapter(private val dailyForecast: List<DailyItem>) :
         viewHolder.itemView.text_date.text = dayForecast.date
         viewHolder.itemView.text_temp.text = "${dayForecast.tempMin}°/${dayForecast.tempMax}°C"
         viewHolder.itemView.text_condition.text = dayForecast.condition
+        imageLoader.loadImage(viewHolder.itemView.image_icon, dayForecast.icon)
     }
 
     override fun getItemCount() = dailyForecast.size

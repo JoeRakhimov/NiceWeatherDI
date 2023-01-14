@@ -2,11 +2,10 @@ package com.joerakhimov.niceweatherdi.forecast
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.joerakhimov.niceweatherdi.R
-import com.joerakhimov.niceweatherdi.data.Api
+import com.joerakhimov.niceweatherdi.data.ImageLoader
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_forecast.*
 import javax.inject.Inject
@@ -17,7 +16,7 @@ class ForecastActivity : AppCompatActivity() {
     private val forecastViewModel: ForecastViewModel by viewModels()
 
     @Inject
-    lateinit var api: Api
+    lateinit var imageLoader: ImageLoader
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,14 +25,13 @@ class ForecastActivity : AppCompatActivity() {
         forecastViewModel.forecast.observe(this) { forecast ->
             showForecast(forecast)
         }
-        Log.d("DITag", api.toString())
     }
 
     private fun showForecast(forecast: ForecastResponse) {
         title = forecast.location?.name
         if (forecast.daily != null) {
             recycler_forecast.layoutManager = LinearLayoutManager(this)
-            recycler_forecast.adapter = ForecastAdapter(forecast.daily)
+            recycler_forecast.adapter = ForecastAdapter(forecast.daily, imageLoader)
         }
     }
 

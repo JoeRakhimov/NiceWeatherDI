@@ -63,6 +63,9 @@ dependencies {
     // HTTP Logging Interceptor
     implementation "com.squareup.okhttp3:logging-interceptor:4.10.0"
 
+    // Image loader
+    implementation 'com.squareup.picasso:picasso:2.8'
+
 }
 
 kapt {

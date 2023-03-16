@@ -7,10 +7,9 @@ import com.joerakhimov.niceweatherdi.R
 import com.joerakhimov.niceweatherdi.data.Api
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_forecast.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 import javax.inject.Inject
+import kotlin.text.Typography.dagger
 
 @AndroidEntryPoint
 class ForecastActivity : AppCompatActivity() {
@@ -24,11 +23,12 @@ class ForecastActivity : AppCompatActivity() {
         getForecast()
     }
 
+    @OptIn(DelicateCoroutinesApi::class)
     private fun getForecast() {
-        runBlocking {
-            withContext(Dispatchers.IO) {
-                val forecast = api.getForecast()
-                forecast.daily?.let { showForecast(forecast) }
+        GlobalScope.launch {
+            val forecast = api.getForecast()
+            withContext(Dispatchers.Main) {
+                showForecast(forecast)
             }
         }
     }

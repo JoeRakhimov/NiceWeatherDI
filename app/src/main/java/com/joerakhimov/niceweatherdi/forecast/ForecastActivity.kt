@@ -12,6 +12,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
+import kotlin.text.Typography.dagger
 
 @AndroidEntryPoint
 class ForecastActivity : AppCompatActivity() {
@@ -21,7 +22,6 @@ class ForecastActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_forecast)
-        forecastViewModel.getForecast()
         forecastViewModel.forecast.observe(this) { forecast ->
             showForecast(forecast)
         }

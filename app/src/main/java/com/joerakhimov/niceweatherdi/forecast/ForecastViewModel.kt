@@ -15,7 +15,11 @@ class ForecastViewModel @Inject constructor(val api: Api) : ViewModel() {
     private val _forecast = MutableLiveData<ForecastResponse>()
     val forecast: LiveData<ForecastResponse> = _forecast
 
-    fun getForecast() {
+    init {
+        getForecast()
+    }
+
+    private fun getForecast() {
         viewModelScope.launch {
             _forecast.value = api.getForecast()
         }

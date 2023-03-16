@@ -2,7 +2,7 @@ package com.joerakhimov.niceweatherdi.di
 
 import com.joerakhimov.niceweatherdi.data.Api
 import com.joerakhimov.niceweatherdi.data.BASE_URL
-import com.joerakhimov.niceweatherdi.data.RemoteRepository
+import com.joerakhimov.niceweatherdi.data.RepositoryImpl
 import com.joerakhimov.niceweatherdi.data.Repository
 import dagger.Binds
 import dagger.Module
@@ -12,6 +12,7 @@ import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
+import kotlin.text.Typography.dagger
 
 @InstallIn(SingletonComponent::class)
 @Module
@@ -34,7 +35,7 @@ class AppModule {
     @Module
     interface Bindings {
         @Binds
-        fun bindRepository(repository: RemoteRepository): Repository
+        fun bindRepository(repository: RepositoryImpl): Repository
     }
 
 }

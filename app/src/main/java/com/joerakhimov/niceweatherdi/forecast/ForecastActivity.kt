@@ -10,6 +10,7 @@ import com.joerakhimov.niceweatherdi.data.Api
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_forecast.*
 import javax.inject.Inject
+import kotlin.text.Typography.dagger
 
 @AndroidEntryPoint
 class ForecastActivity : AppCompatActivity() {
@@ -22,7 +23,6 @@ class ForecastActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_forecast)
-        forecastViewModel.getForecast()
         forecastViewModel.forecast.observe(this) { forecast ->
             showForecast(forecast)
         }
